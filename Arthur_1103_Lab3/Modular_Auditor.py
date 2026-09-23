@@ -25,6 +25,11 @@ def calculate_tax(amount):
     tax = amount * 0.10
     return tax
 
+def generate_report(current_total, total_rejected_entries):
+    print("Final Report:")
+    print("Current stock: " + str(current_total))
+    print("No of Rejected Entries: " + str(total_rejected_entries))
+
 def main():
     current_total = 0
     total_rejected_entries = 0
@@ -32,7 +37,7 @@ def main():
         valid, stocked, rejected_entry = get_valid_input()
         total_rejected_entries += rejected_entry
         if not valid:
-            print("Current stock: " + str(current_total) + "\nNo of Rejected Entries: " + str(total_rejected_entries))
+            generate_report(current_total, total_rejected_entries)
             break
 
         success, current_total = process_delivery(current_total, stocked)
