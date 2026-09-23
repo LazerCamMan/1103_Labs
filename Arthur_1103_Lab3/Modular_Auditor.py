@@ -14,8 +14,14 @@ def process_delivery(current_total, new_stock):
         print("Overstock Alert! Total inventory exceeds 500 units.")
         return (False, current_total)
     else:
-        print("Current stock:", current_total + new_stock)
+        tax = calculate_tax(new_stock)
+        print("Current stock: ", current_total + new_stock)
+        print("Tax for this specific delivery: " + str(tax))
         return (True, current_total + new_stock)
+
+def calculate_tax(amount):
+    tax = amount * 0.10
+    return tax
 
 def main():
     current_total = 0
