@@ -30,9 +30,27 @@ def generate_report(current_total, total_rejected_entries):
     print("Current stock: " + str(current_total))
     print("No of Rejected Entries: " + str(total_rejected_entries))
 
+def load_inventory():
+    current_inventory = []
+    try:
+        with open("inventory.txt", "r") as file:
+            for line in file:
+                line = line.strip()
+                if not line:
+                    continue
+                current_inventory.append(line.split(","))
+    except FileNotFoundError:
+        with open("inventory.txt", "w") as file:
+            pass
+    print("Current Orders:" + "\n")
+    for item in current_inventory:
+        print(item)
+    return current_inventory
+
 def main():
     current_total = 0
     total_rejected_entries = 0
+    inventory = load_inventory()
     while True:
         valid, stocked, rejected_entry = get_valid_input()
         total_rejected_entries += rejected_entry
