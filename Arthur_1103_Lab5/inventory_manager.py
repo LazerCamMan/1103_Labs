@@ -3,8 +3,8 @@ import json
 
 #===========================MAIN FUNCTION============================================================
 def main():
-    current_inventory = load_inventory()
     print_header()
+    current_inventory = load_inventory()
     print_main_menu()
     user_menu_choice = main_menu_choice()
     execute_user_choice_selection(user_menu_choice, current_inventory)
@@ -102,7 +102,7 @@ def print_product_information(product_information):
     print("\nProduct Information:\n" + "-------------------------------")
     print(f"ID: {product_information['ID']}")
     print(f"Name: {product_information['Name']}")
-    print(f"Price: $ {product_information['Price']:.2f}")
+    print(f"Price: ${product_information['Price']:.2f}")
     print(f"Stock: {product_information['Stock']}")
     print("-------------------------------\n")
 #====================================================================================================
@@ -112,14 +112,20 @@ def load_inventory():
     try:
         with open("inventory.json", "r") as file:
             current_inventory = json.load(file)
+            print("inventory.json loaded")
             return current_inventory
     except FileNotFoundError:
         with open("inventory.json", "w") as file:
+            print("inventory.json file not found. Creating new inventory.json file.")
             json.dump([], file)
         return []
 
-def save_inventory():
-    pass
+def save_inventory(inventory):
+    print("\nSaving Inventory...")
+    with open("inventory.json", "w") as file:
+        json.dump(inventory, file, indent=4)
+    print("Inventory saved to inventory.json\n")
+    
 
 
 #====================================================================================================
@@ -143,10 +149,11 @@ def execute_user_choice_selection(user_menu_choice, inventory):
         user_menu_choice = main_menu_choice()
         execute_user_choice_selection(user_menu_choice, inventory)
     elif user_menu_choice == 5:
-        search_and_print_product(inventory)
+        save_inventory(inventory)
         user_menu_choice = main_menu_choice()
         execute_user_choice_selection(user_menu_choice, inventory)
     elif user_menu_choice == 6:
+        save_inventory(inventory)
         print("Exiting the Program")    
 #====================================================================================================
 
