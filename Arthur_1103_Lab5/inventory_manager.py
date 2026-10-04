@@ -1,13 +1,9 @@
 import json
 
-current_inventory = [
-  {"ID": "P001", "Name": "Laptop", "Price": 1200.00, "Stock": 15},
-  {"ID": "P002", "Name": "Mouse", "Price": 25.50, "Stock": 40},
-  {"ID": "P003", "Name": "Keyboard", "Price": 45.00, "Stock": 25}
-]
 
 #===========================MAIN FUNCTION============================================================
 def main():
+    current_inventory = load_inventory()
     print_header()
     print_main_menu()
     user_menu_choice = main_menu_choice()
@@ -21,7 +17,7 @@ def display_inventory_main_function(inventory):
     print("Current Inventory:\n" + "-------------------------------")
     for item in inventory:
         print(f"ID: {item['ID']} | Name: {item['Name']} | Price: ${item['Price']:.2f} | Stock: {item['Stock']}")
-    print("-------------------------------")
+    print("-------------------------------\n")
 #====================================================================================================
 
 
@@ -109,7 +105,24 @@ def print_product_information(product_information):
     print(f"Price: $ {product_information['Price']:.2f}")
     print(f"Stock: {product_information['Stock']}")
     print("-------------------------------\n")
-    
+#====================================================================================================
+
+#=====================DATA BASE HANDLING============================================================
+def load_inventory():
+    try:
+        with open("inventory.json", "r") as file:
+            current_inventory = json.load(file)
+            return current_inventory
+    except FileNotFoundError:
+        with open("inventory.json", "w") as file:
+            json.dump([], file)
+        return []
+
+def save_inventory():
+    pass
+
+
+#====================================================================================================
 
 #=====================USER INPUT HANDLING============================================================
 def execute_user_choice_selection(user_menu_choice, inventory):
